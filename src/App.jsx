@@ -162,7 +162,10 @@ export default function App() {
 
       let stream
       try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: videoEnabled, audio: true })
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: videoEnabled ? { facingMode: 'user' } : false,
+          audio: true,
+        })
       } catch {
         setRecordingError('Camera/microphone access was denied or unavailable.')
         return
