@@ -216,3 +216,173 @@ body {
 .download-link:hover {
   background: #3a3a3a;
 }
+
+.survey-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 2000;
+}
+
+.survey-card {
+  position: relative;
+  width: 100%;
+  max-width: 26rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #1c1c1c;
+  border: 1px solid #444;
+  border-radius: 1rem;
+  padding: 2rem 1.5rem 1.5rem;
+}
+
+.survey-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #aaa;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.survey-close:hover {
+  background: #2a2a2a;
+  color: #f5f5f5;
+}
+
+.survey-card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+}
+
+.survey-subtitle {
+  margin: 0 0 1.5rem;
+  color: #aaa;
+  font-size: 0.95rem;
+}
+
+.survey-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.survey-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.survey-field input,
+.survey-field textarea {
+  font: inherit;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #444;
+  background: #111;
+  color: inherit;
+  resize: vertical;
+}
+
+.survey-field input:focus,
+.survey-field textarea:focus {
+  outline: 2px solid #3ddc84;
+  outline-offset: 1px;
+}
+
+.survey-hint {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.rating-scale {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.rating-button {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid #444;
+  background: #111;
+  color: #f5f5f5;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.rating-button:hover {
+  border-color: #3ddc84;
+}
+
+.rating-button.selected {
+  background: #3ddc84;
+  border-color: #3ddc84;
+  color: #111;
+  font-weight: 600;
+}
+
+.survey-error {
+  color: #ff3b3b;
+  font-size: 0.9rem;
+}
+
+.survey-submit {
+  font-size: 1.1rem;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  background: #3ddc84;
+  color: #111;
+  font-weight: 600;
+}
+
+.survey-submit:hover {
+  background: #34c374;
+}
+
+.survey-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.survey-thanks {
+  text-align: center;
+}
+
+.share-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.share-button {
+  font: inherit;
+  padding: 0.6rem 1.1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #444;
+  background: #2a2a2a;
+  color: #f5f5f5;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.share-button:hover {
+  background: #3a3a3a;
+}

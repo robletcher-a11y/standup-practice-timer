@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import SurveyPopup from './SurveyPopup.jsx'
 
 const DEFAULT_MINUTES = 5
 const DEFAULT_SECONDS = 0
@@ -47,6 +48,7 @@ export default function App() {
   const [recordingHasVideo, setRecordingHasVideo] = useState(true)
   const [recordingError, setRecordingError] = useState(null)
   const [audioLevel, setAudioLevel] = useState(0)
+  const [showSurvey, setShowSurvey] = useState(false)
 
   const streamRef = useRef(null)
   const recorderRef = useRef(null)
@@ -56,6 +58,32 @@ export default function App() {
   const analyserRef = useRef(null)
   const meterDataRef = useRef(null)
   const meterFrameRef = useRef(null)
+
+  // Show the feedback survey once, on the visitor's second visit (tracked per-browser
+  // via localStorage, since a static site has no way to identify visitors by IP).
+  useEffect(() => {
+    const VISITS_KEY = 'standupTimerVisitCount'
+    const SUBMITTED_KEY = 'standupTimerSurveySubmitted'
+    const DISMISSED_KEY = 'standupTimerSurveyDismissed'
+
+    const visitCount = Number(localStorage.getItem(VISITS_KEY) || '0') + 1
+    localStorage.setItem(VISITS_KEY, String(visitCount))
+
+    const alreadyHandled = localStorage.getItem(SUBMITTED_KEY) || localStorage.getItem(DISMISSED_KEY)
+    if (visitCount >= 2 && !alreadyHandled) {
+      const timer = setTimeout(() => setShowSurvey(true), 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [])
+
+  const dismissSurvey = () => {
+    localStorage.setItem('standupTimerSurveyDismissed', 'true')
+    setShowSurvey(false)
+  }
+
+  const handleSurveySubmitted = () => {
+    localStorage.setItem('standupTimerSurveySubmitted', 'true')
+  }
 
   // Keep the preview in sync with the duration inputs while stopped.
   useEffect(() => {
@@ -317,6 +345,10 @@ export default function App() {
             Download
           </a>
         </div>
+      )}
+
+      {showSurvey && (
+        <SurveyPopup onDismiss={dismissSurvey} onSubmitted={handleSurveySubmitted} />
       )}
     </div>
   )
