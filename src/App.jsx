@@ -58,19 +58,21 @@ export default function App() {
   const analyserRef = useRef(null)
   const meterDataRef = useRef(null)
   const meterFrameRef = useRef(null)
+  const resetCountRef = useRef(0)
+
+  const surveyAlreadyHandled = () =>
+    Boolean(
+      localStorage.getItem('standupTimerSurveySubmitted') ||
+        localStorage.getItem('standupTimerSurveyDismissed')
+    )
 
   // Show the feedback survey once, on the visitor's second visit (tracked per-browser
   // via localStorage, since a static site has no way to identify visitors by IP).
   useEffect(() => {
-    const VISITS_KEY = 'standupTimerVisitCount'
-    const SUBMITTED_KEY = 'standupTimerSurveySubmitted'
-    const DISMISSED_KEY = 'standupTimerSurveyDismissed'
+    const visitCount = Number(localStorage.getItem('standupTimerVisitCount') || '0') + 1
+    localStorage.setItem('standupTimerVisitCount', String(visitCount))
 
-    const visitCount = Number(localStorage.getItem(VISITS_KEY) || '0') + 1
-    localStorage.setItem(VISITS_KEY, String(visitCount))
-
-    const alreadyHandled = localStorage.getItem(SUBMITTED_KEY) || localStorage.getItem(DISMISSED_KEY)
-    if (visitCount >= 2 && !alreadyHandled) {
+    if (visitCount >= 2 && !surveyAlreadyHandled()) {
       const timer = setTimeout(() => setShowSurvey(true), 1000)
       return () => clearTimeout(timer)
     }
@@ -238,6 +240,11 @@ export default function App() {
     hasFlashedRef.current = false
     setIsFlashing(false)
     setRecordingError(null)
+
+    resetCountRef.current += 1
+    if (resetCountRef.current >= 2 && !surveyAlreadyHandled()) {
+      setShowSurvey(true)
+    }
   }
 
   // Auto-finish also needs to stop the in-progress recording.
